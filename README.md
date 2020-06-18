@@ -1,0 +1,2 @@
+# SCDS-Algorithm
+We proposed a method for semi-supervised clustering of sleep stages. By first using a supervised step and determining features that differentiated each classic sleep stage from all others and using unsupervised clustering method for sleep staging, we were able to provide more robustness and consistency toward signal quality compared to supervised methods. The benefit of the proposed method is further evidenced by the discovery of a unique cluster in the NREM sleep of subjects with REM behavior disorder (RBD).
