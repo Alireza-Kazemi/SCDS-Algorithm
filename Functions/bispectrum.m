@@ -16,7 +16,7 @@
 % Address your comments and questions to alireza.kzmi@gmail.com
 
 
-function [Bspec,waxis] = bispectrum(x,nLag,fc)
+function [Bspec,waxis] = bispectrum(x,nLag,fc,nFFT)
 %% Initialize
 Np = 2*nLag+1;
 s=size(x);
@@ -24,9 +24,7 @@ if(s(1)==1)
     x=x';
 end
 x=double(x);
-
 Cum = cumulant(x,[nLag,nLag]); % Cumulants
-
 %% Lag Window 
 Window = parzenwin(Np);
 % 
@@ -47,7 +45,7 @@ BWind = BWind.*Window;
 % figure;surf(abs(fftshift(fft2(BWind))));
 WCum = Cum.*BWind;
 %% Bispectrum 
-nfft = Np;
+nfft = nFFT;
 % Bspec = fft2(WCum, nfft, nfft); 
 Bspec = fft2(WCum, nfft, nfft); 
 Bspec = fftshift(Bspec); 

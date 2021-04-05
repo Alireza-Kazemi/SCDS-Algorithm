@@ -15,7 +15,7 @@
 % Designed and developed by Alireza Kazemi 2020
 % Address your comments and questions to alireza.kzmi@gmail.com
 
-function [BTS,Waxis] = btsestimate(Sig,Phi,Rho,nLag,Fc)
+function [BTS,Waxis] = btsestimate(Sig,Phi,Rho,nLag,Fc,nFFT)
 
 L=length(Sig(1,:));
 Np = 2*nLag+1;
@@ -25,19 +25,17 @@ BTS = cell(L,1);
 
 for i=1:L
     x = Sig(:,i);
-    [B,A] = butter(5,[1,45]/(Fc*.5));
-    x = filter(B,A,x);
-    [Bispec,Waxis]= bispectrum(x,nLag,Fc);
+    [Bispec,Waxis]= bispectrum(x,nLag,Fc,nFFT);
     W1 = Waxis;
     W2 = Phi*Waxis+Rho;
-    W1(abs(W2)>max(Waxis))=[];
-    W2(abs(W2)>max(Waxis))=[];
+    W1(abs(W2)>max(abs(Waxis)))=[];
+    W2(abs(W2)>max(abs(Waxis)))=[];
     W1=round(W1*Np/Fc+nLag+1);
     W2=round(W2*Np/Fc+nLag+1);
     BTS{i} = Bispec(W1+(W2-1)*Np);
 end
-x = Sig(:,1);
-[~,Waxis]= bispectrum(x,nLag,Fc);
+% x = Sig(:,1);
+% [~,Waxis]= bispectrum(x,nLag,Fc,nFFT);
 BTS = cell2mat(BTS);
 
 end

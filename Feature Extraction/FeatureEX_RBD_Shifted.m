@@ -21,18 +21,17 @@ clear;
 clc;
 
 %% Parameters
-Fs = 100;
-ChanNum = 2;
+Fs = 512;
+ChanNum = 3;
 Phi = 1;
 Rho = 0;
 nLag = 150; 
 nFFT = 512;
 Fnum=62;
-load EEG.mat % Load Data here; Data should be in the format of cell array on participants as {[Epochs, Samples, Channels]}
-load Template.mat
+load ReadyDataRBDShift.mat % Load Data here; Data should be in the format of cell array on participants as {[Epochs, Samples, Channels]}
 
 %% Initialize
-DataEEG = EEG;
+DataEEG = Data.EEG;
 FeatData = cell(1,length(DataEEG));
 BTSData = cell(1,length(DataEEG));
 
@@ -154,9 +153,9 @@ for Participant = 1:length(DataEEG)
     BTSData{Participant} = BTS_Vals;
     FeatData{Participant} = Feats;
 end
-Data.BTS = BTSData;
+
 Data.EEG = FeatData;
 
 %% Save
-save('EEGFeatEDF.mat','Data','-v7.3');
+save('EEGfeatRBDShift.mat','Data','-v7.3');
 %%
